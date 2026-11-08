@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>云栖谷 · 旅游H5广告</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: system-ui,-apple-system,'PingFang SC','Microsoft YaHei',sans-serif; }
+body { background:#0f1a24; min-height:100vh; display:flex; justify-content:center; padding:12px; }
+
+/* ===== 主容器 ===== */
+.h5-wrap {
+  max-width:420px; width:100%;
+  background:#fefefe;
+  border-radius:36px;
+  overflow:hidden;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.7);
+  position:relative;
+}
+
+/* ===== 每一屏（页面） ===== */
+.screen {
+  display:none;
+  animation: fadeIn .5s ease;
+}
+.screen.active { display:block; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+/* ===== 屏幕1：封面 ===== */
+.hero {
+  position:relative;
+  height:520px;
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:28px 24px;
+}
+/* 封面图片在这里替换：把 url 换成你的图片链接 */
+.hero {
+  background-image: linear-gradient(180deg, rgba(15,26,36,0.1) 0%, rgba(15,26,36,0.85) 100%),
+                    url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800');
+}
+
+.hero h1 {
+  color:#fff; font-size:2.4rem; font-weight:800;
+  letter-spacing:-.02em; line-height:1.15;
+  text-shadow:0 4px 16px rgba(0,0,0,.6);
+  margin-bottom:10px;
+}
+.hero h1 span {
+  display:inline-block;
+  background:rgba(255,215,130,.95);
+  color:#1e2e3a; font-size:.85rem;
+  padding:5px 14px; border-radius:40px;
+  vertical-align:middle; margin-left:8px;
+  font-weight:700;
+}
+.hero .sub {
+  color:#e9f2f9; font-size:1rem;
+  background:rgba(20,40,55,.45);
+  backdrop-filter:blur(8px);
+  padding:8px 16px; border-radius:40px;
+  width:fit-content;
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:24px;
+}
+.hero .scroll-hint {
+  color:#c9d8e2; font-size:.8rem;
+  text-align:center; letter-spacing:2px;
+  animation: bounce 1.8s infinite;
+  margin-top:20px;
+}
+@keyframes bounce {
+  0%,100%{ transform:translateY(0); opacity:.7; }
+  50%{ transform:translateY(6px); opacity:1; }
+}
+
+/* ===== 屏幕2：简介 ===== */
+.section { padding:32px 24px; }
+.badge {
+  display:inline-block; background:#fbefd2; color:#6b4e2e;
+  font-size:.72rem; font-weight:700; letter-spacing:.5px;
+  padding:5px 14px; border-radius:20px; margin-bottom:14px;
+  border:1px solid #f0dfbe;
+}
+.section h2 {
+  font-size:1.6rem; font-weight:800; color:#1a2e3b;
+  margin-bottom:14px; line-height:1.25;
+}
+.section p {
+  font-size:.95rem; line-height:1.75; color:#3a4a55;
+  margin-bottom:18px;
+}
+.section p strong { color:#b5652c; }
+
+/* 故事卡片 */
+.legend-card {
+  background:#f4f0e8; border-radius:18px;
+  padding:18px; margin-top:18px;
+  border-left:4px solid #d9a55b;
+  display:flex; gap:14px;
+}
+.legend-icon { font-size:2rem; line-height:1; }
+.legend-text { font-size:.88rem; line-height:1.65; color:#3c2f22; font-style:italic; }
+.legend-text em { font-style:normal; font-weight:700; color:#a35620; }
+
+/* ===== 屏幕3：图6画廊（放你的图片的地方） ===== */
+.gallery { padding:28px 20px; }
+.gallery-title {
+  font-size:1.4rem; font-weight:800; color:#1a2e3b;
+  text-align:center; margin-bottom:6px;
+}
+.gallery-sub {
+  text-align:center; font-size:.82rem; color:#8a949c;
+  margin-bottom:22px; letter-spacing:.5px;
+}
+/* 图片容器 —— 每个 .photo-box 就是一张图 */
+.photo-box {
+  width:100%; height:200px;
+  border-radius:20px;
+  margin-bottom:16px;
+  background-size:cover;
+  background-position:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 24px -8px rgba(0,0,0,.25);
+}
+.photo-box .caption {
+  position:absolute; left:0; right:0; bottom:0;
+  background:linear-gradient(0deg, rgba(0,0,0,.75) 0%, transparent 100%);
+  color:#fff; font-size:.85rem; font-weight:600;
+  padding:16px 18px 12px;
+  letter-spacing:.3px;
+}
+/* 三张图分别替换背景图 */
+.photo-1 { background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800'); }
+.photo-2 { background-image:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800'); }
+.photo-3 { background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800'); }
+
+/* ===== 屏幕4：结束页 ===== */
+.ending {
+  height:520px;
+  background:linear-gradient(160deg,#1e3a4d 0%,#0f1a24 100%);
+  color:#fff; padding:48px 28px;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center;
+}
+.ending .icon { font-size:3.2rem; margin-bottom:20px; }
+.ending h2 { font-size:1.9rem; font-weight:800; line-height:1.3; margin-bottom:14px; }
+.ending p { font-size:.95rem; color:#c9d8e2; line-height:1.7; margin-bottom:36px; }
+
+/* ===== 按钮 ===== */
+.btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:18px 24px;
+  background:linear-gradient(135deg,#d68b3c,#b5652c);
+  color:#fff; font-size:1.05rem; font-weight:700;
+  border:none; border-radius:60px; cursor:pointer;
+  box-shadow:0 14px 24px -8px rgba(181,101,44,.6);
+  letter-spacing:.5px;
+  transition:transform .12s ease;
+}
+.btn:active { transform:scale(.97); }
+.btn-light {
+  background:linear-gradient(135deg,#f0d9b5,#d9a55b);
+  color:#3c2f22;
+  box-shadow:0 14px 24px -8px rgba(217,165,91,.5);
+}
+
+/* ===== 底部导航点 ===== */
+.dots {
+  display:flex; justify-content:center; gap:8px;
+  padding:16px 0 22px;
+  background:#fefefe;
+}
+.dots span {
+  width:8px; height:8px; border-radius:50%;
+  background:#d8d2c8; transition:all .3s;
+}
+.dots span.active { background:#b5652c; width:24px; border-radius:8px; }
+</style>
+</head>
+<body>
+<div class="h5-wrap">
+
+  <!-- ========== 屏幕1 · 封面 ========== -->
+  <div class="screen active" id="screen1">
+    <div class="hero">
+      <h1>云栖谷<span>图6</span></h1>
+      <div class="sub">📍 云南 · 隐世秘境</div>
+      <div class="scroll-hint">▼ 向下滑动</div>
+    </div>
+    <div class="dots">
+      <span class="active"></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- ========== 屏幕2 · 简介与故事 ========== -->
+  <div class="screen" id="screen2">
+    <div class="section">
+      <div class="badge">✨ 景点简介 · 传说</div>
+      <h2>云栖谷 · 仙人弈棋</h2>
+      <p>
+        云栖谷藏于苍山背后，常年云雾缭绕。
+        <strong>传说古时有樵夫入山，见两位老者于石台对弈</strong>，
+        局罢，老者赠其一枚山果。樵夫归家，方知已过三秋，
+        而谷中仅一日。自此“云栖一盘棋，人间几度秋”便流传开来。
+      </p>
+
+      <div class="legend-card">
+        <div class="legend-icon">♟️</div>
+        <div class="legend-text">
+          <em>「烂柯传说 · 云栖版」</em> —— 谷中有一块“棋盘石”，
+          纹理如棋路，雨后石面会浮现淡淡荧光。
+          当地人说，那是仙人对弈时留下的灵气。
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 24px 28px;">
+      <button class="btn" onclick="goTo(3)">下一站 · 图6实景 →</button>
+    </div>
+    <div class="dots">
+      <span></span><span class="active"></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- ========== 屏幕3 · 图6画廊（放你的图片） ========== -->
+  <div class="screen" id="screen3">
+    <div class="gallery">
+      <div class="gallery-title">图6 · 实景故事</div>
+      <div class="gallery-sub">每一帧都是传说</div>
+
+      <!-- 图片1 -->
+      <div class="photo-box photo-1">
+        <div class="caption">🌄 云海日出 · 破晓之光</div>
+      </div>
+      <!-- 图片2 -->
+      <div class="photo-box photo-2">
+        <div class="caption">🪨 棋盘仙石 · 雨后荧光</div>
+      </div>
+      <!-- 图片3 -->
+      <div class="photo-box photo-3">
+        <div class="caption">🍃 千年古藤 · 秘境寻踪</div>
+      </div>
+
+      <button class="btn" onclick="goTo(4)">开启我的云栖之旅 ✨</button>
+    </div>
+    <div class="dots">
+      <span></span><span></span><span class="active"></span><span></span>
+    </div>
+  </div>
+
+  <!-- ========== 屏幕4 · 结束页 ========== -->
+  <div class="screen" id="screen4">
+    <div class="ending">
+      <div class="icon">🏔️</div>
+      <h2>云栖一盘棋<br>人间几度秋</h2>
+      <p>传说等你来续写<br>云栖谷 · 静候你的到来</p>
+      <button class="btn btn-light" onclick="goTo(1)">↻ 重新观看</button>
+    </div>
+    <div class="dots">
+      <span></span><span></span><span></span><span class="active"></span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 页面切换逻辑
+function goTo(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + n).classList.add('active');
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// 下滑翻页手势（移动端）
+let startY = 0;
+document.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+document.addEventListener('touchend', e => {
+  const endY = e.changedTouches[0].clientY;
+  const diff = startY - endY;
+  if (Math.abs(diff) < 60) return;
+  const current = [...document.querySelectorAll('.screen')].findIndex(s => s.classList.contains('active')) + 1;
+  if (diff > 0 && current < 4) goTo(current + 1);
+  if (diff < 0 && current > 1) goTo(current - 1);
+});
+</script>
+</body>
+</html>
